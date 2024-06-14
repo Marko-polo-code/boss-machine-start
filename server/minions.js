@@ -9,27 +9,30 @@ const {
   } = require('./db');
 
 // Minions Routes
-minionsRouter.get('/', (req, res) => {
-  const allMinions = getAllFromDatabase('minions');
-  res.send(allMinions);
-});
-
-minionsRouter.post('/', (req, res) => {
-  const newMinion = addToDatabase('minions', req.body);
-  res.status(201).send(newMinion);
-});
-
-minionsRouter.get('/:minionId', (req, res) => {
-  const minion = getFromDatabaseById('minions', req.params.minionId);
+minionsRouter.param('minionId', (req, res, next, id) => {
+  const minion = getFromDatabaseById('minions', id);
   if (minion) {
-    res.send(minion);
+    req.minion = minion;
+    next();
   } else {
     res.status(404).send('Minion not found.');
   }
 });
 
-minionsRouter.put('/:minionId', (req, res) => {
-  req.body.id = req.params.minionId;
+minionsRouter.get('/', (req, res, next) => {
+  res.send(getAllFromDatabase('minions'));
+});
+
+minionsRouter.post('/', (req, res, next) => {
+  const newMinion = addToDatabase('minions', req.body);
+  res.status(201).send(newMinion);
+});
+
+minionsRouter.get('/:minionId', (req, res, next) => {
+  res.send(req.minion);
+});
+
+minionsRouter.put('/:minionId', (req, res, next) => {
   const updatedMinion = updateInstanceInDatabase('minions', req.body);
   res.send(updatedMinion);
 });

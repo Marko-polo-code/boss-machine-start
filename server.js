@@ -11,14 +11,17 @@ app.use(express.static('public'));
 // Import routers
 const apiRouter = require('./server/api');
 const minionsRouter = require('./server/minions');
+const ideasRouter = require('./server/ideas');
 
 // Setup API Router
 console.log('Setting up /api route');
 app.use('/api', apiRouter);
 
-// Setup Minions Router on API Router
+// Setup Minions, Ideas Router on API Router
 console.log('Setting up /api/minions route');
 apiRouter.use('/minions', minionsRouter);
+console.log('Setting up /api/ideas route');
+apiRouter.use('/ideas', ideasRouter);
 
 // Start server
 app.listen(PORT, () => {
