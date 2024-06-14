@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 4001;
 
@@ -25,6 +26,10 @@ console.log('Setting up /api/ideas route');
 apiRouter.use('/ideas', ideasRouter);
 console.log('Setting up /api/meetings route');
 apiRouter.use('/meetings', meetingsRouter);
+
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, './index.html'));
+});
 
 // Start server
 app.listen(PORT, () => {
