@@ -12,6 +12,7 @@ app.use(express.static('public'));
 const apiRouter = require('./server/api');
 const minionsRouter = require('./server/minions');
 const ideasRouter = require('./server/ideas');
+const meetingsRouter = require('./server/meetings');
 
 // Setup API Router
 console.log('Setting up /api route');
@@ -22,6 +23,8 @@ console.log('Setting up /api/minions route');
 apiRouter.use('/minions', minionsRouter);
 console.log('Setting up /api/ideas route');
 apiRouter.use('/ideas', ideasRouter);
+console.log('Setting up /api/meetings route');
+apiRouter.use('/meetings', meetingsRouter);
 
 // Start server
 app.listen(PORT, () => {
